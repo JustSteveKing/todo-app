@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\V1\Auth;
 
-use App\Commands\Auth\V1\CreateTokenForUser;
 use App\Exceptions\V1\Auth\AuthenticationException;
 use App\Http\Requests\V1\Auth\LoginRequest;
 use App\Http\Responses\V1\Auth\TokenResponse;
+use App\Service\AuthService;
 use Illuminate\Contracts\Auth\Factory;
 use Illuminate\Contracts\Support\Responsable;
 use JustSteveKing\Tools\Http\Enums\Status;
 
 final readonly class LoginController
 {
-    /**
-     * @param Factory $auth
-     * @param CreateTokenForUser $command
-     */
     public function __construct(
         private Factory $auth,
-        private CreateTokenForUser $command,
+        private AuthService $service,
     ) {}
 
     /**
@@ -38,7 +34,7 @@ final readonly class LoginController
         }
 
         return new TokenResponse(
-            data: $this->command->handle(
+            data: $this->service->createToken(
                 id: (string) $this->auth->guard()->id(),
                 name: (string) $request->userAgent(),
             ),
