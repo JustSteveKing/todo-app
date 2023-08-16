@@ -14,11 +14,20 @@ use JustSteveKing\Tools\Http\Enums\Status;
 
 final readonly class LoginController
 {
+    /**
+     * @param Factory $auth
+     * @param CreateTokenForUser $command
+     */
     public function __construct(
         private Factory $auth,
         private CreateTokenForUser $command,
     ) {}
 
+    /**
+     * @param LoginRequest $request
+     * @return Responsable
+     * @throws AuthenticationException
+     */
     public function __invoke(LoginRequest $request): Responsable
     {
         if (! $this->auth->guard()->attempt($request->only('email','password'))) {
