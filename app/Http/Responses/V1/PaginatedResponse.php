@@ -14,7 +14,7 @@ final readonly class PaginatedResponse implements Responsable
     use HasResponse;
 
     public function __construct(
-        private AbstractPaginator $data,
-        private Status $status = Status::OK,
+        protected AbstractPaginator $data,
+        protected Status $status = Status::OK,
     ) {}
 }

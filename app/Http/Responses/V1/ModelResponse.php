@@ -6,15 +6,15 @@ namespace App\Http\Responses\V1;
 
 use App\Http\Responses\V1\Concerns\HasResponse;
 use Illuminate\Contracts\Support\Responsable;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use JustSteveKing\Tools\Http\Enums\Status;
+use TiMacDonald\JsonApi\JsonApiResource;
 
-final readonly class CollectionResponse implements Responsable
+final class ModelResponse implements Responsable
 {
     use HasResponse;
 
     public function __construct(
-        protected AnonymousResourceCollection $data,
-        protected Status $status = Status::OK,
+        protected readonly JsonApiResource $data,
+        protected readonly Status $status = Status::OK,
     ) {}
 }
